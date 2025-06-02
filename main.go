@@ -105,6 +105,88 @@ func (cp *ClusterOpsPlugin) Cleanup() error {
 	return nil
 }
 
+// Enhanced interface methods
+
+// Validate implements dynamic_plugins.KubestellarPlugin interface
+func (cp *ClusterOpsPlugin) Validate() error {
+	if !cp.initialized {
+		return fmt.Errorf("plugin not initialized")
+	}
+	return nil
+}
+
+// GetStatus implements dynamic_plugins.KubestellarPlugin interface
+func (cp *ClusterOpsPlugin) GetStatus() dynamic_plugins.PluginStatus {
+	cp.mutex.RLock()
+	defer cp.mutex.RUnlock()
+
+	state := dynamic_plugins.StateLoaded
+	if !cp.initialized {
+		state = dynamic_plugins.StateError
+	}
+
+	return dynamic_plugins.PluginStatus{
+		State:        state,
+		Health:       dynamic_plugins.HealthHealthy,
+		LastCheck:    time.Now().Format(time.RFC3339),
+		Uptime:       time.Since(cp.uptime).String(),
+		RequestCount: 0,
+		Metrics:      cp.metrics,
+	}
+}
+
+// HandleError implements dynamic_plugins.KubestellarPlugin interface
+func (cp *ClusterOpsPlugin) HandleError(err error) dynamic_plugins.PluginError {
+	return dynamic_plugins.PluginError{
+		Code:      dynamic_plugins.ErrorCodeRuntime,
+		Message:   "Plugin runtime error",
+		Details:   err.Error(),
+		Timestamp: time.Now().Format(time.RFC3339),
+	}
+}
+
+// OnConfigChange implements dynamic_plugins.KubestellarPlugin interface
+func (cp *ClusterOpsPlugin) OnConfigChange(config map[string]interface{}) error {
+	cp.mutex.Lock()
+	defer cp.mutex.Unlock()
+	cp.config = config
+	return nil
+}
+
+// GetMetrics implements dynamic_plugins.KubestellarPlugin interface
+func (cp *ClusterOpsPlugin) GetMetrics() map[string]interface{} {
+	cp.mutex.RLock()
+	defer cp.mutex.RUnlock()
+
+	metrics := make(map[string]interface{})
+	for k, v := range cp.metrics {
+		metrics[k] = v
+	}
+	metrics["uptime_seconds"] = time.Since(cp.uptime).Seconds()
+	return metrics
+}
+
+// GetPermissions implements dynamic_plugins.KubestellarPlugin interface
+func (cp *ClusterOpsPlugin) GetPermissions() []string {
+	return []string{"cluster.read", "cluster.write", "cluster.delete", "configmap.read", "configmap.write"}
+}
+
+// ValidateRequest implements dynamic_plugins.KubestellarPlugin interface
+func (cp *ClusterOpsPlugin) ValidateRequest(c *gin.Context) error {
+	// Basic validation - can be extended as needed
+	return nil
+}
+
+// OnLoad implements dynamic_plugins.KubestellarPlugin interface
+func (cp *ClusterOpsPlugin) OnLoad() error {
+	return nil
+}
+
+// OnUnload implements dynamic_plugins.KubestellarPlugin interface
+func (cp *ClusterOpsPlugin) OnUnload() error {
+	return cp.Cleanup()
+}
+
 // Self-contained handlers for cluster operations
 
 func (cp *ClusterOpsPlugin) OnboardClusterHandler(c *gin.Context) {
