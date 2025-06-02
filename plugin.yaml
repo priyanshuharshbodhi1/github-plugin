@@ -6,10 +6,10 @@ author: Priyanshu
 compatibility:
   kubestellar: '>=0.21.0'
   go: '>=1.21'
-repository: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin
-homepage: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin
-documentation: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin/blob/main/README.md
-issues: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin/issues
+repository: https://github.com/priyanshuharshbodhi1/github-plugin
+homepage: https://github.com/priyanshuharshbodhi1/github-plugin
+documentation: https://github.com/priyanshuharshbodhi1/github-plugin/blob/main/README.md
+issues: https://github.com/priyanshuharshbodhi1/github-plugin/issues
 endpoints:
   - path: /onboard
     method: POST
