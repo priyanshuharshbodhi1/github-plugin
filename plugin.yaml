@@ -1,15 +1,15 @@
 id: cluster-ops-plugin
 name: KubeStellar Cluster Operations
-version: 1.0.0
+version: 1.1.0
 description: Advanced cluster onboarding and detachment operations for KubeStellar
 author: Priyanshu
 compatibility:
   kubestellar: '>=0.21.0'
   go: '>=1.21'
-repository: https://github.com/kubestellar/kubestellar-cluster-ops-plugin
-homepage: https://github.com/kubestellar/kubestellar-cluster-ops-plugin
-documentation: https://github.com/kubestellar/kubestellar-cluster-ops-plugin/blob/main/README.md
-issues: https://github.com/kubestellar/kubestellar-cluster-ops-plugin/issues
+repository: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin
+homepage: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin
+documentation: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin/blob/main/README.md
+issues: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin/issues
 endpoints:
   - path: /onboard
     method: POST
