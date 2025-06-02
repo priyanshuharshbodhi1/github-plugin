@@ -1,15 +1,15 @@
-id: kubestellar-cluster-plugin
-name: KubeStellar Cluster Management
+id: cluster-ops-plugin
+name: KubeStellar Cluster Operations
 version: 1.0.0
-description: Plugin for cluster onboarding and detachment operations with real functionality
-author: CNCF LFX Mentee
+description: Advanced cluster onboarding and detachment operations for KubeStellar
+author: Priyanshu
 compatibility:
   kubestellar: '>=0.21.0'
   go: '>=1.21'
-repository: https://github.com/your-username/kubestellar-cluster-plugin
-homepage: https://github.com/your-username/kubestellar-cluster-plugin
-documentation: https://github.com/your-username/kubestellar-cluster-plugin/blob/main/README.md
-issues: https://github.com/your-username/kubestellar-cluster-plugin/issues
+repository: https://github.com/kubestellar/kubestellar-cluster-ops-plugin
+homepage: https://github.com/kubestellar/kubestellar-cluster-ops-plugin
+documentation: https://github.com/kubestellar/kubestellar-cluster-ops-plugin/blob/main/README.md
+issues: https://github.com/kubestellar/kubestellar-cluster-ops-plugin/issues
 endpoints:
   - path: /onboard
     method: POST
@@ -19,11 +19,11 @@ endpoints:
     method: POST
     handler: DetachClusterHandler
     description: Detach a cluster from KubeStellar
-  - path: /status
+  - path: /status/:cluster
     method: GET
     handler: GetClusterStatusHandler
-    description: Get cluster status and health information
-  - path: /list
+    description: Get specific cluster status and health information
+  - path: /clusters
     method: GET
     handler: ListClustersHandler
     description: List all managed clusters
@@ -31,6 +31,10 @@ endpoints:
     method: GET
     handler: HealthCheckHandler
     description: Plugin health check endpoint
+  - path: /events/:cluster
+    method: GET
+    handler: GetClusterEventsHandler
+    description: Get cluster onboarding events and logs
 dependencies:
   - kubectl
   - clusteradm
@@ -40,6 +44,22 @@ permissions:
   - cluster.delete
   - configmap.read
   - configmap.write
+security:
+  network_access: true
+  filesystem_access: true
+  sandboxed: true
+health:
+  enabled: true
+  interval_seconds: 30
+  timeout_seconds: 5
+configuration:
+  timeout: '60s'
+  retries: 3
+  validate_ssl: true
+  log_level: 'info'
+  cluster_namespace: 'kubestellar-system'
+  its_context: 'its1'
+  kubeconfig_dir: '/tmp/kubestellar-clusters'
 tags:
   - cluster-management
   - kubestellar
