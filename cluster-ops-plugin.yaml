@@ -1,0 +1,69 @@
+id: cluster-ops-plugin
+name: KubeStellar Cluster Operations
+version: 1.1.0
+description: Advanced cluster onboarding and detachment operations for KubeStellar
+author: Priyanshu
+compatibility:
+  kubestellar: '>=0.21.0'
+  go: '>=1.21'
+repository: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin
+homepage: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin
+documentation: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin/blob/main/README.md
+issues: https://github.com/priyanshuharshbodhi1/kubestellar-cluster-ops-plugin/issues
+endpoints:
+  - path: /onboard
+    method: POST
+    handler: OnboardClusterHandler
+    description: Onboard a new cluster to KubeStellar
+  - path: /detach
+    method: POST
+    handler: DetachClusterHandler
+    description: Detach a cluster from KubeStellar
+  - path: /status/:cluster
+    method: GET
+    handler: GetClusterStatusHandler
+    description: Get specific cluster status
+  - path: /clusters
+    method: GET
+    handler: ListClustersHandler
+    description: List all managed clusters
+  - path: /health
+    method: GET
+    handler: HealthCheckHandler
+    description: Plugin health check
+  - path: /events/:cluster
+    method: GET
+    handler: GetClusterEventsHandler
+    description: Get cluster onboarding events
+dependencies:
+  - kubectl
+  - clusteradm
+permissions:
+  - cluster.read
+  - cluster.write
+  - cluster.delete
+  - configmap.read
+  - configmap.write
+security:
+  network_access: true
+  filesystem_access: true
+  sandboxed: true
+health:
+  enabled: true
+  interval_seconds: 30
+  timeout_seconds: 5
+configuration:
+  timeout: "60s"
+  retries: 3
+  validate_ssl: true
+  log_level: 'info'
+  cluster_namespace: "kubestellar-system"
+  its_context: "its1"
+  kubeconfig_dir: '/tmp/kubestellar-clusters'
+tags:
+  - cluster-management
+  - kubestellar
+  - onboarding
+  - multi-cluster
+  - ocm
+  - cncf 

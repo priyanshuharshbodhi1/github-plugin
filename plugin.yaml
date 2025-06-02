@@ -22,7 +22,7 @@ endpoints:
   - path: /status/:cluster
     method: GET
     handler: GetClusterStatusHandler
-    description: Get specific cluster status and health information
+    description: Get specific cluster status
   - path: /clusters
     method: GET
     handler: ListClustersHandler
@@ -30,11 +30,11 @@ endpoints:
   - path: /health
     method: GET
     handler: HealthCheckHandler
-    description: Plugin health check endpoint
+    description: Plugin health check
   - path: /events/:cluster
     method: GET
     handler: GetClusterEventsHandler
-    description: Get cluster onboarding events and logs
+    description: Get cluster onboarding events
 dependencies:
   - kubectl
   - clusteradm
@@ -53,12 +53,12 @@ health:
   interval_seconds: 30
   timeout_seconds: 5
 configuration:
-  timeout: '60s'
+  timeout: "60s"
   retries: 3
   validate_ssl: true
   log_level: 'info'
-  cluster_namespace: 'kubestellar-system'
-  its_context: 'its1'
+  cluster_namespace: "kubestellar-system"
+  its_context: "its1"
   kubeconfig_dir: '/tmp/kubestellar-clusters'
 tags:
   - cluster-management
