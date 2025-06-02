@@ -1,0 +1,49 @@
+id: kubestellar-cluster-plugin
+name: KubeStellar Cluster Management
+version: 1.0.0
+description: Plugin for cluster onboarding and detachment operations with real functionality
+author: CNCF LFX Mentee
+compatibility:
+  kubestellar: '>=0.21.0'
+  go: '>=1.21'
+repository: https://github.com/your-username/kubestellar-cluster-plugin
+homepage: https://github.com/your-username/kubestellar-cluster-plugin
+documentation: https://github.com/your-username/kubestellar-cluster-plugin/blob/main/README.md
+issues: https://github.com/your-username/kubestellar-cluster-plugin/issues
+endpoints:
+  - path: /onboard
+    method: POST
+    handler: OnboardClusterHandler
+    description: Onboard a new cluster to KubeStellar
+  - path: /detach
+    method: POST
+    handler: DetachClusterHandler
+    description: Detach a cluster from KubeStellar
+  - path: /status
+    method: GET
+    handler: GetClusterStatusHandler
+    description: Get cluster status and health information
+  - path: /list
+    method: GET
+    handler: ListClustersHandler
+    description: List all managed clusters
+  - path: /health
+    method: GET
+    handler: HealthCheckHandler
+    description: Plugin health check endpoint
+dependencies:
+  - kubectl
+  - clusteradm
+permissions:
+  - cluster.read
+  - cluster.write
+  - cluster.delete
+  - configmap.read
+  - configmap.write
+tags:
+  - cluster-management
+  - kubestellar
+  - onboarding
+  - multi-cluster
+  - ocm
+  - cncf 
